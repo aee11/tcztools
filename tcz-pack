@@ -141,7 +141,7 @@ size="$(du -h $tmp/$name.tcz | cut -f1)"
 must sed -i "s/^Size:.*$/Size:\t\t$size/" $name.tcz.info
 
 #copy it to local tce dir for testing with tce-load -i
-read tcedir < /opt/.tce_dir || die "Could not find tce directory."
+tcedir=$(readlink -f /etc/sysconfig/tcedir) || tcedir=$(cat /opt/.tce_dir) || die "Could not find tce directory."
 must cp -f $tmp/$name.tcz "$tcedir/optional"
 must cp -f $tmp/$name.tcz.md5.txt "$tcedir/optional"
 [ -f $name.tcz.dep ] && must cp -f $name.tcz.dep "$tcedir/optional"
